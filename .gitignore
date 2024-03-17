@@ -175,5 +175,7 @@ pyrightconfig.json
 
 # Custom
 *.csv
+/images/*.png
+/images/*.jpg
 
 # End of https://www.toptal.com/developers/gitignore/api/python

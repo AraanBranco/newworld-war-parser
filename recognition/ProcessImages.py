@@ -10,7 +10,8 @@ class ProcessImages:
 
         for image_path in self.image_paths:
             result = self.ocr.ocr(img=image_path, cls=False, det=True, rec=True, inv=True, bin=False)
-            results = self.generateRows(result)
+            result = self.generateRows(result)
+            results.extend(result)
 
         clean_results = self.remove_duplicate_player(results)
         results_ordered = sorted(clean_results, key=lambda d: d['rank'])
@@ -23,23 +24,15 @@ class ProcessImages:
         row = {}
 
         j = 1
-        line = 1
         for i in range(len(text)):
             if j == 8:
                 # Damage
                 row['damage'] = text[i]
 
-                if line > 1:
-                    rows.append(row)
-
+                rows.append(row)
                 row = {}
                 j = 1
-                line += 1
             else:
-                if line == 1:
-                    j += 1
-                    continue
-
                 # Rank
                 if j == 1:
                     row['rank'] = '{:0>2}'.format(int(text[i]))
